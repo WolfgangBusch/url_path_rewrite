@@ -17,7 +17,7 @@ $string='
         eingerichtet. Daher sollte das AddOn <code>metainfo</code>
         installiert sein.</li>
     <li>Die Sprache einer Seite kann wahlweise im URL oder durch eine
-        Session-Variablen gekennzeichnet werden.</li>
+        Session-Variable gekennzeichnet werden.</li>
     <li>URL und Sprachkennzeichnung identifizieren einen Artikel im Frontend
         eindeutig. Eine Erweiterung des <code>Extension Point FE_OUTPUT</code>
         ermöglicht seine Ausgabe ohne besondere RewriteRules.</li>

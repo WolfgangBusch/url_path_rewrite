@@ -5,15 +5,13 @@
  * @package redaxo5
  * @version November 2017
 */
-$dirname =REWRITER_DIR;
-$basename=REWRITER_BASE;
-$custurl =REWRITER_URL;
 $string='
 <ul style="padding-left:30px; line-height:15pt; margin-bottom:0px;">
     <li>Dieses AddOn ist eine Erweiterung des Standard-Rewriters und nutzt
         den <code>Extension Point URL_REWRITE</code>.</li>
     <li>Der Artikel-URL wird automatisch generiert in der Form
-        <code>'.$custurl.'='.$dirname.'1/'.$dirname.'2/.../'.$basename.'</code>
+        <code>'.REWRITER_URL.'='.REWRITER_DIR.'1/'.REWRITER_DIR.
+        '2/.../'.REWRITER_BASE.'</code>
         und bildet so den Kategorien-Pfad eines Artikels ab.
         Die zugehörigen Bezeichnungen werden als zusätzliche Meta Infos
         eingerichtet. Daher sollte das AddOn <code>metainfo</code>

@@ -17,11 +17,23 @@ for($i=0;$i<count($key);$i=$i+1) $confval[$i]=rex_config::get(REWRITER,$key[$i])
 # --- Einlesen der gesetzten Formularwerte
 for($i=0;$i<count($key);$i=$i+1) $val[$i]=$_POST["$key[$i]"];
 if(empty($val[0]) and empty($val[1]) and empty($val[2]) and empty($val[3]))
-  for($i=0;$i<=3;$i=$i+1) $val[$i]=$confval[$i];
+  for($i=0;$i<=count($key);$i=$i+1) $val[$i]=$confval[$i];
 $sendit=$_POST["sendit"];
 #
 # --- nicht erlaubte Werte ermitteln, Warnungen setzen
-for($i=0;$i<=2;$i=$i+1):
+$arrext=explode(" ",$val[0]);
+$warn[0]="";
+if(!empty($val[0])):
+  for($i=0;$i<count($arrext);$i=$i+1):
+     if(!empty($sendit) and !path_rewrite_allowed_name($arrext[$i])):
+       $warn[0]="nicht erlaubte Zeichen in <code>".utf8_decode($val[0]).
+          "</code>, Parameter zurückgesetzt";
+       break;
+       endif;
+     endfor;
+  endif;
+if(!empty($warn[0])) $val[0]=$confval[0];
+for($i=1;$i<=2;$i=$i+1):
    $warn[$i]="";
    if(!empty($sendit) and !path_rewrite_allowed_name($val[$i]) and !empty($val[$i])):
      $warn[$i]="nicht erlaubte Zeichen in <code>".utf8_decode($val[$i]).
@@ -58,18 +70,18 @@ $stdcode=rex_clang::get(1)->getCode();
 $stx="style=\"padding-left:30px; margin-bottom:0px; white-space:nowrap;\"";
 $sty="style=\"padding-left:20px; vertical-align:top;\"";
 $bl="            ";
-$ext=".".$val[0];
+$ext=".".$arrext[0];
 if(empty($val[0])) $ext="";
 $text[0]="\n".
-   $bl."Namenserweiterung für die Artikelnamen (in <tt>".REWRITER_BASE."</tt>)\n".
+   $bl."erlaubte Erweiterungen für den &quot;Dateinamen&quot; eines Artikels\n".
    $bl."<div ".$stx.">\n".
    $bl."Beispiel: <tt>".REWRITER_BASE."=xxxxxx</tt><code>".$ext."</code><br/>\n".
-   $bl."(kann leer sein, in dem Fall entfällt auch der Punkt)</div>";
+   $bl."(können entfallen, in dem Fall entfällt auch der Punkt)</div>";
 $text[1]="\n".
-   $bl."Namensstamm für die Startartikel einer Kategorie\n".
+   $bl."Stamm für den &quot;Dateinamen&quot; des Startartikels einer Kategorie\n".
    $bl."<div ".$stx.">\n".
-   $bl."also Artikelname eines Startartikels: <code>".$val[1]."</code><tt>".$ext."</tt></br/>\n".
-   $bl."(wird bei leerer Namenserweiterung auch leer gesetzt)</div>";
+   $bl."also &quot;Dateiname&quot; eines Startartikels: <code>".$val[1]."</code><tt>".$ext."</tt></br/>\n".
+   $bl."(entfällt bei leerer [erster] Namenserweiterung)</div>";
 $text[2]="\n".
    $bl."Name für den URL-Parameter bzw. die Session-Variable\n".
    $bl."<div ".$stx.">zur Kennzeichnung der Sprache</div>";
@@ -111,10 +123,12 @@ $string='
     <tr><td colspan="2">
             <b>Parameter zur Konstruktion der URLs:</b></td></tr>';
 for($i=0;$i<count($key)-1;$i=$i+1):
+   $width=100;
+   if($i==0) $width=150;
    $string=$string.'
     <tr><td '.$stx.'>'.$text[$i].'</td>
         <td '.$sty.' align="right">
-            <input style="width:100px;" id="'.$key[$i].'" name="'.$key[$i].'" value="'.$val[$i].'" /></td></tr>';
+            <input style="width:'.$width.'px;" id="'.$key[$i].'" name="'.$key[$i].'" value="'.$val[$i].'" /></td></tr>';
    if(!empty($warn[$i])) $string=$string.'
      <tr><td colspan="2">'.rex_view::warning($warn[$i]).'</td></tr>';
    if($i==1) $string=$string.'
@@ -136,7 +150,7 @@ $string='    <tr><td '.$stx.'>'.$text[3].'</td>
             <select id="'.$key[3].'" name="'.$key[3].'">'.$stropt.'
             </select></td></tr>
     <tr><td colspan="2" '.$stx.'>
-            '.$textpl.'</td></tr>';
+            '.$textpl.'<br/></td></tr>';
 echo utf8_encode($string);
 #
 # --- Submit-Button, Reset-Button und Formular-Abschluss

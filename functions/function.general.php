@@ -18,7 +18,7 @@ function path_rewrite_default_config() {
    #   Rueckgabe der Default-Konfigurations-Parameter
    #
    $defconf=array(
-      DEFAULT_EXTENSION=>"html",
+      DEFAULT_EXTENSION=>"html php css",
       DEFAULT_STARTNAME=>"index",
       CLANG_PARAMETER  =>"language",
       CLANG_MODE       =>3);     // ***

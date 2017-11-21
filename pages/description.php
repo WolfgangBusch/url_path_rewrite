@@ -14,10 +14,10 @@ $urlbez="Custom URL";
 $string='
 <div><b>Elemente der URL-Darstellung:</b></div>
 <div style="padding-left:30px;">Für die Darstellung eines URLs werden
-bei der Installation des AddOns die folgenden Meta Infos angelegt
-(als Zeilen in der Tabelle <code>rex_metainfo_field</code> und als
-Spalten in der Tabelle <code>rex_article</code>). Sie werden bei der
-De-Installation nicht wieder entfernt.
+bei der Installation des AddOns die folgenden Meta Infos angelegt (als
+Zeilen in der Tabelle <code>rex_metainfo_field</code> und als Spalten
+in der Tabelle <code>rex_article</code>). Sie sind für alle Sprachen
+gleich. Sie werden bei der De-Installation nicht wieder entfernt.
 <ul style="padding-left:30px; margin-bottom:0px;">
     <li><code>'.REWRITER_DIR.'</code> : &nbsp; '.$vname.' für jede
         Kategorie,<br/>
@@ -38,8 +38,7 @@ De-Installation nicht wieder entfernt.
         ablesbar (<tt>readonly</tt>) im Eingabefeld des Menüs
         <code style="color:green;">'.$attr.'</code> des Artikels,<br/>
         den Wert (mit vorangestelltem &quot;/&quot;) liefert die
-        Standardfunktion <code>rex_getUrl</code>,<br/>
-        der Custom URL ist sprachunabhängig</li>
+        Standardfunktion <code>rex_getUrl</code></li>
 </ul>
 Erlaubte Zeichen für die Meta Infos sind: '.path_rewrite_allowed_chars().'.
 Startartikelname und Namenserweiterung können auch anders konfiguriert

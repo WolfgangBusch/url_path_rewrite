@@ -21,8 +21,8 @@
 <div>Für die Darstellung eines URLs werden
 bei der Installation des AddOns die folgenden Meta Infos angelegt
 (als Zeilen in der Tabelle <code>rex_metainfo_field</code> und als
-Spalten in der Tabelle <code>rex_article</code>). Sie werden bei der
-De-Installation nicht wieder entfernt.
+Spalten in der Tabelle <code>rex_article</code>). Sie sind für alle Sprachen
+gleich. Sie werden bei der De-Installation nicht wieder entfernt.
 <ul>
     <li><code>cat_dirname</code> : &nbsp; &quot;Verzeichnisname&quot; für jede
         Kategorie,<br/>
@@ -43,8 +43,7 @@ De-Installation nicht wieder entfernt.
         ablesbar (<tt>readonly</tt>) im Eingabefeld des Menüs
         <code style="color:green;">Metadaten</code> des Artikels,<br/>
         den Wert (mit vorangestelltem &quot;/&quot;) liefert die
-        Standardfunktion <code>rex_getUrl</code>,<br/>
-        der Custom URL ist sprachunabhängig</li>
+        Standardfunktion <code>rex_getUrl</code></li>
 </ul>
 Erlaubte Zeichen für die Meta Infos sind: Buchstaben, Ziffern, Punkt(.),
 Minuszeichen(-), Unterstrich(_), <u>keine Umlaute</u>, <u>keine Leerzeichen</u>.

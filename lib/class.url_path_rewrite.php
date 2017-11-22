@@ -53,7 +53,7 @@ function rewrite($params) {
      if(count($arr)>=2):
        #   Normalform-URL
        if(count(rex_clang::getAll())>1):
-         $str="&clang=".$clang_id=$article->getValue("clang_id");
+         $str="&clang=".$clang_id=$article->getClang();
          else:
          $str="";
          endif;
@@ -104,15 +104,12 @@ function set_url($article) {
    #      path_rewrite_sql_action($sql,$query)
    #
    # --- Artikel-Parameter auslesen
-   $path    =$article->getValue("path");
+   $path    =$article->getPath();
    $art_id  =$article->getId();
-   $clang_id=$article->getValue("clang_id");
-   $par_id  =$article->getValue("parent_id");
+   $clang_id=$article->getClang();
+   $par_id  =$article->getParentId();
    $basename=$article->getValue(REWRITER_BASE);
-   if($article->isStartArticle()):
-     $path=$path.$art_id."|";
-     $par_id=$art_id;
-     endif;
+   if($article->isStartArticle()) $par_id=$art_id;
    #
    # --- Ueberpruefung des art_basename
    $arr=self::proof_name($basename,"name",$article);
@@ -221,7 +218,7 @@ function proof_name($proofstr,$param,$article) {
    #      unique_url($article,$metainfo,$value)
    #
    $art_id=$article->getId();
-   $start =$article->getValue("startarticle");
+   $start =$article->isStartArticle();
    $arr=explode(" ",$article->getValue($param));
    $artname=$arr[0];   // Leerzeichen sind ohnehin nicht erlaubt
    #
@@ -359,7 +356,7 @@ function get_url($article) {
    #      self::mode_url_clang($url,$clang_id) {
    #
    $art_id  =$article->getId();
-   $clang_id=$article->getValue("clang_id");
+   $clang_id=$article->getClang();
    $sql=rex_sql::factory();
    $where="id=".$art_id." AND clang_id=".$clang_id;
    $query="SELECT * FROM rex_article WHERE ".$where;

@@ -140,7 +140,7 @@ function unique_url($article,$metainfo,$value) {
    #
    $art_id  =$article->getId();
    if($art_id==rex_article::getSiteStartArticleId()) return TRUE;
-   $clang_id=$article->getValue("clang_id");
+   $clang_id=$article->getClang();
    $par_id  =$article->getParentId();
    #     Geschwister von "Homepage" haben die Kategorie-Id "0"
    if($par_id<=0) $par_id=rex_article::getSiteStartArticleId();
@@ -156,7 +156,7 @@ function unique_url($article,$metainfo,$value) {
    foreach($articles as $art):
           $val=$art->getValue("$metainfo");
           $id=$art->getId();
-          $cid=$art->getValue("clang_id");
+          $cid=$art->getClang();
           if($val==$value and $id!=$art_id and $cid==$clang_id) return FALSE;
           endforeach;
    return TRUE;

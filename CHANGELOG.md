@@ -4,7 +4,7 @@
     <li>Die Software ist natürlich gemäß MIT-Lizenz frei nutzbar, nachlesbar
         in der zusätzlichen Datei LICENSE.md.</li>
     <li>Die ungenutzte Datei uninstall.php entfällt jetzt.</li>
-    <li>Der englische Sprachzweig ist angelegt (Dateien_en.lang im Ordner
+    <li>Der englische Sprachzweig ist angelegt (Datei en_en.lang im Ordner
         lang). Eine Übersetzung der gesamten Beschreibung fehlt noch.</li>
 </ul>
 <h4>Version 1.0.3</h4>

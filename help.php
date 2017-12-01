@@ -3,7 +3,7 @@
  * URL-Rewrite AddOn
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version November 2017
+ * @version Dezember 2017
 */
 $string='
 <ul style="padding-left:30px; line-height:15pt; margin-bottom:0px;">

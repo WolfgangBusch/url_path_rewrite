@@ -3,7 +3,7 @@
  * URL-Rewrite AddOn
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version November 2017
+ * @version Dezember 2017
  */
 function path_rewrite_metainfos() {
    #   Einfuegen der MetaInfos in die Redaxo-Tabellen

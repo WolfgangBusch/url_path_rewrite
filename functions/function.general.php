@@ -3,7 +3,7 @@
  * URL-Rewrite AddOn
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version November 2017
+ * @version Dezember 2017
  */
 define("REWRITER",         $this->getPackageId()); // Package-Id
 define("REWRITER_URL",     "art_custom_url");      // Meta Info

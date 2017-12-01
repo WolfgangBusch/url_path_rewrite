@@ -211,4 +211,100 @@ function article_from_normurl($param) {
    if($article==NULL) $article=rex_article::getNotfoundArticle();
    return $article;
    }
+function select_lang() {
+   #   Rueckgabe eines HTML-Codes fuer ein Select-Menue zur
+   #   Sprachauswahl im aktuellen Artikel.
+   #   benutzte functions:
+   #      param_normurl()
+   #
+   $parlang=rex_config::get(REWRITER,CLANG_PARAMETER);
+   $mode   =rex_config::get(REWRITER,CLANG_MODE);
+   $param=param_normurl();
+   if(count($param)>=2) $mode=0;
+   #
+   # --- Artikel-Id und Sprach-Id
+   $art_id=rex_article::getCurrentId();
+   $cid   =rex_clang::getCurrentId();
+   #
+   # --- URL
+   $url=rex_getUrl($art_id,$cid);
+   if($mode==1 and $cid>1):
+     $code=rex_clang::get($cid)->getCode();
+     $url=substr($url,strlen($code)+1);
+     endif;
+   #
+   # --- option-Liste
+   $opt="";
+   foreach(rex_clang::getAll() as $key=>$lang):
+          $id  =$lang->getId();
+          $code=$lang->getCode();
+          $sel="";
+          if($id==$cid) $sel=" selected=\"selected\"";
+          if($mode<=0):
+            # --- Normalform-URL
+            $urlid="/index.php?article_id=$art_id&clang=$id";
+            else:
+            # --- Wunsch-URL
+            $urlid=$url;
+            if($mode==1 and $id>1) $urlid="/".$code.$urlid;
+            if($mode>=2) $urlid=$urlid."?".$parlang."=".$code;
+            endif;
+          $opt=$opt.
+             "    <option".$sel." value=\"".$urlid."\">".
+             rex_clang::get($id)->getName()."</option>\n";
+          endforeach;
+   #
+   # --- select-Menue
+   $form="<select onchange=\"".
+      "window.open(this.options[this.selectedIndex].value,'_self');".
+      "\">\n".$opt."</select>";
+   return $form;
+   }
+function select_url() {
+   #   Rueckgabe eines HTML-Codes fuer ein Select-Menue zum Wechsel
+   #   zwischen konfigurierter URL-Form und Redaxo-Standard-URL
+   #   benutzte functions
+   #      param_normurl()
+   #      url_rewrite::mode_url_clang($url,$clang_id)
+   #
+   $parlang=rex_config::get(REWRITER,CLANG_PARAMETER);
+   $mode   =rex_config::get(REWRITER,CLANG_MODE);
+   $param=param_normurl();
+   if(count($param)>=2) $mode=0;
+   #
+   # --- Artikel-Id und Sprach-Id
+   $art_id=rex_article::getCurrentId();
+   $cid   =rex_clang::getCurrentId();
+   #
+   # --- Wunsch-URL
+   $sql=rex_sql::factory();
+   $query="SELECT * FROM rex_article WHERE id=".$art_id." AND clang_id=".$cid;
+   $rows=$sql->getArray($query);
+   $url=$rows[0][REWRITER_URL];
+   $murl="/".url_rewrite::mode_url_clang($url,$cid);
+   #
+   # --- Normalform-URL
+   $nurl="/index.php?article_id=".$art_id."&clang=".$cid;
+   #
+   # --- options
+   $seln="";
+   $selm="selected=\"selected\"";
+   if($mode<=0):
+     # --- Normalform-URL, hier auch Session-Sprachkennzeichnung mitfuehren
+     $seln=$selm;
+     $selm="";
+     if($mode==3):
+       session_start();
+       $_SESSION["$parlang"]=rex_clang::get($cid)->getCode();
+       endif;
+     endif;
+   $opt="    <option ".$selm." value=\"".$murl."\">konfigurierter URL</option>\n".
+        "    <option ".$seln." value=\"".$nurl."\">Standard-URL</option>\n";
+   #
+   # --- select-Menue
+   $form="<select onchange=\"".
+      "window.open(this.options[this.selectedIndex].value,'_self');".
+      "\">\n".$opt."</select>";
+   return $form;
+   }
 ?>

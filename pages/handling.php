@@ -84,6 +84,15 @@ $string='
         und der zugehörige '.$urlbez.' [<code>'.REWRITER_URL.'</code>]
         angelegt.</li>
 </ul>
+<div><b>Utility-Funktionen für den Frontend:</b></div>
+<ul>
+    <li><code>echo select_lang();</code> &nbsp; liefert im aktuellen
+        Artikel ein select-Menü zur Sprachauswahl.</li>
+    <li><code>echo select_url();</code> &nbsp; liefert im aktuellen
+        Artikel ein select-Menü zum Wechsel zwischen konfigurierter
+        URL-Form und Redaxo-Standard-URL, wobei die gewählte Sprache
+        beibehalten wird</li>
+</ul>
 ';
 echo utf8_encode($string);
 ?>

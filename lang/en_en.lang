@@ -1,7 +1,0 @@
-# addon:url_path_rewrite
-url_path_rewrite = URL Path Rewrite
-introduction     = Introduction
-description      = Description
-htaccess         = Rewrite Rules
-handling         = Handling
-config           = Configuration

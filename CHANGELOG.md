@@ -1,4 +1,10 @@
 # url_path_rewrite
+<h4>Version 1.0.5</h4>
+<ul>
+    <li>Der englische Sprachzweig ist jetzt richtig angelegt (Datei
+        en_gb.lang im Ordner lang). Eine Übersetzung der gesamten
+        Beschreibung fehlt weiterhin.</li>
+</ul>
 <h4>Version 1.0.4</h4>
 <ul>
     <li>Die Software ist natürlich gemäß MIT-Lizenz frei nutzbar, nachlesbar

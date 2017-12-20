@@ -55,12 +55,24 @@ function get_article($req_url) {
    #   Rueckgabe des Artikel-Objekts zum aufgerufenen URL.
    #   Falls der Artikel offline ist oder nicht gefunden wird,
    #   wird stattdessen der Notfound-Artikel zurueck gegeben.
+   #   Links auf Kategorie-Startartikel in der Form ".../" werden auch gefunden.
    #   $req_url           aufgerufener relativer URL ohne Parameter
    #   aufgerufene functions:
+   #      path_rewrite_default_config()
    #      self::mode_clang_url($req_url)
    #
    $arr=self::mode_clang_url($req_url);
    $url=$arr[0];
+   #
+   # --- Links auf Kategorie-Startartikel in der Form ".../"
+   if(substr($url,strlen($url)-1)=="/" or empty($url)):
+     $key=array_keys(path_rewrite_default_config());
+     $ext=rex_config::get(REWRITER,$key[0]);
+     $brr=explode(" ",$ext);
+     $ext=$brr[0];
+     if(!empty($ext)) $ext=".".$ext;
+     $url=$url.rex_config::get(REWRITER,$key[1]).$ext;
+     endif;
    $clang_id=$arr[1];
    #
    # --- Artikel-Id gemaess Artikel-MetaInfo fuer den URL

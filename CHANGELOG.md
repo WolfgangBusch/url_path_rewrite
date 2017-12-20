@@ -1,4 +1,10 @@
 # url_path_rewrite
+<h4>Version 1.1.0</h4>
+<ul>
+    <li>Links auf Kategorie-Startartikel in der Form ".../" führen jetzt nicht
+        mehr auf den NotFound-Artikel, sondern werden wie der entsprechende
+        Link in der Form ".../index.html" angezeigt.</li>
+</ul>
 <h4>Version 1.0.5</h4>
 <ul>
     <li>Der englische Sprachzweig ist jetzt richtig angelegt (Datei

@@ -43,9 +43,6 @@ function rewrite($params) {
    #   Aus Artikel-Id und Sprach-Id wird das Artikel-Objekt gewonnen.
    $article=rex_article::get($art_id,$clang_id);
    if($article==NULL) $article=rex_article::getNotfoundArticle();
-       #########################################################################
-       ### if(!$article->isOnline()) $article=rex_article::getNotfoundArticle();
-       #########################################################################
    #
    if(rex::isBackend()):
      # --- Backend: Definieren und ggf. Speichern des Wunsch-URLs

@@ -164,12 +164,7 @@ function set_url($article) {
    $url=self::mode_url_clang($url,$clang_id);
    #
    # --- Warnungen/Erfolgsmeldungen ausgeben
-   $success=self::mode_clang_info($url,$clang_id);
-   if(!empty($warning)):
-     echo rex_view::warning($warning."\n<br/>\n<br/>".$success);
-     else:
-     echo rex_view::success($success);
-     endif;
+   if(!empty($warning)) echo rex_view::warning($warning);
    return $url;
    }
 function get_newest_dirname($article) {

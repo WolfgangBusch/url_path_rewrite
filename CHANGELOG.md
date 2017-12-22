@@ -1,4 +1,10 @@
 # url_path_rewrite
+<h4>Version 1.1.1</h4>
+<ul>
+    <li>Es werden jetzt im Artikel-Kontext keine rex_view::success-Meldungen
+        mit dem art_custom_url mehr ausgegeben, sondern nur noch
+        rex_view::warning-Meldungen.</li>
+</ul>
 <h4>Version 1.1.0</h4>
 <ul>
     <li>Links auf Kategorie-Startartikel in der Form ".../" führen jetzt nicht

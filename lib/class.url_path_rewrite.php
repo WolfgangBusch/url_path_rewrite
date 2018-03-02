@@ -130,8 +130,10 @@ function set_url($article) {
           $dirname=self::get_newest_dirname($article);
           $arr=self::proof_name($dirname,"catname",$article);
           else:
-          $art=rex_article::get($par_id,$clang_id);
-          $arr=self::proof_name($dirname,"catname",$art);
+          if($par_id>0):
+            $art=rex_article::get($par_id,$clang_id);
+            $arr=self::proof_name($dirname,"catname",$art);
+            endif;
           endif;
         $dirname=$arr[0];
         $mesd=$arr[1];

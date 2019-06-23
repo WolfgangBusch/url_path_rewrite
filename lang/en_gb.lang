@@ -2,6 +2,6 @@
 url_path_rewrite = URL Path Rewrite
 introduction     = Introduction
 description      = Description
-htaccess         = Rewrite Rules
 handling         = Handling
+rewrite          = Rewrite Outline
 config           = Configuration

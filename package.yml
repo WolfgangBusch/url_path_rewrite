@@ -1,5 +1,5 @@
 package: url_path_rewrite
-version: '1.1.1'
+version: '2.0'
 author: 'Wolfgang Busch'
 supportpage: redaxo.org/forum/
 
@@ -8,8 +8,8 @@ page:
     perm: url_path_rewrite[]
     subpages:
         introduction: { title: 'translate:introduction' }
+        rewrite:      { title: 'translate:rewrite' }
         description:  { title: 'translate:description' }
-        htaccess:     { title: 'translate:htaccess' }
         handling:     { title: 'translate:handling' }
         config:       { title: 'translate:config' }
 

@@ -3,11 +3,11 @@
  * URL-Rewrite AddOn
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version Dezember 2017
+ * @version Juni 2019
  */
 require_once __DIR__.'/functions/function.general.php';
-require_once __DIR__.'/lib/class.url_path_rewrite.php';
-require_once __DIR__.'/lib/class.fe_path_output.php';
+require_once __DIR__.'/lib/class.path_config.php';
+require_once __DIR__.'/lib/class.path_url_rewrite.php';
 rex_extension::register('URL_REWRITE',array('url_rewrite','rewrite'));
-rex_extension::register('FE_OUTPUT',  array('fe_output','output'));
+if(!rex::isBackend()) url_rewrite::set_current();
 ?>

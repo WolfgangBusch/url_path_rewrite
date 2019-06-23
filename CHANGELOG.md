@@ -1,4 +1,14 @@
 # url_path_rewrite
+<h4>Version 2.0</h4>
+<ul>
+    <li>Der Code ist vollst√§ndig √ºberarbeitet und mit 'error_reporting(E_ALL);'
+        √ºberpr√ºft.</li>
+    <li>Der Extension Point FE_OUTPUT wird nicht ben√∂tigt und daher nicht
+        mehr benutzt.</li>
+    <li>Der gesamte Source-Code ist auf UTF-8 umgestellt.</li>
+    <li>Alle im AddOn verwendeten Functions sind auf zwei Klassen im Ordner
+        lib verteilt. Hinzu kommen zwei Utility-Funktionen im Ordner functions.</li>
+</ul>
 <h4>Version 1.1.1</h4>
 <ul>
     <li>Es werden jetzt im Artikel-Kontext keine rex_view::success-Meldungen
@@ -7,30 +17,30 @@
 </ul>
 <h4>Version 1.1.0</h4>
 <ul>
-    <li>Links auf Kategorie-Startartikel in der Form ".../" f¸hren jetzt nicht
+    <li>Links auf Kategorie-Startartikel in der Form ".../" f√ºhren jetzt nicht
         mehr auf den NotFound-Artikel, sondern werden wie der entsprechende
         Link in der Form ".../index.html" angezeigt.</li>
 </ul>
 <h4>Version 1.0.5</h4>
 <ul>
     <li>Der englische Sprachzweig ist jetzt richtig angelegt (Datei
-        en_gb.lang im Ordner lang). Eine ‹bersetzung der gesamten
+        en_gb.lang im Ordner lang). Eine √úbersetzung der gesamten
         Beschreibung fehlt weiterhin.</li>
 </ul>
 <h4>Version 1.0.4</h4>
 <ul>
-    <li>Die Software ist nat¸rlich gem‰ﬂ MIT-Lizenz frei nutzbar, nachlesbar
-        in der zus‰tzlichen Datei LICENSE.md.</li>
-    <li>Die ungenutzte Datei uninstall.php entf‰llt jetzt.</li>
+    <li>Die Software ist nat√ºrlich gem√§√ü MIT-Lizenz frei nutzbar, nachlesbar
+        in der zus√§tzlichen Datei LICENSE.md.</li>
+    <li>Die ungenutzte Datei uninstall.php entf√§llt jetzt.</li>
     <li>Der englische Sprachzweig ist angelegt (Datei en_en.lang im Ordner
-        lang). Eine ‹bersetzung der gesamten Beschreibung fehlt noch.</li>
+        lang). Eine √úbersetzung der gesamten Beschreibung fehlt noch.</li>
 </ul>
 <h4>Version 1.0.3</h4>
 <ul>
-    <li>2 neue Utility-Funktionen zur Nutzung im Frontend: ein Men¸ zur
-        Sprachauswahl im aktuellen Artikel und ein Auswahlmen¸ zum Wechsel
+    <li>2 neue Utility-Funktionen zur Nutzung im Frontend: ein Men√º zur
+        Sprachauswahl im aktuellen Artikel und ein Auswahlmen√º zum Wechsel
         zwischen konfigurierter URL-Form und Redaxo-Standard-URL, wobei
-        die gew‰hlte Sprache beibehalten wird.</li>
+        die gew√§hlte Sprache beibehalten wird.</li>
 </ul>
 <h4>Version 1.0.2</h4>
 <ul>
@@ -42,6 +52,6 @@
 <ul>
     <li>Bei leerer Dateinamenserweiterung wird nicht jedesmal wieder eine Warnung
         ausgegeben. Das AddOn kann ja ohne Dateinamenserweiterung konfiguriert sein.</li>
-    <li>Jetzt sind nebeneinander mehrere Dateinamenserweiterungen mˆglich,
+    <li>Jetzt sind nebeneinander mehrere Dateinamenserweiterungen m√∂glich,
         also z.B. nicht nur .html, sondern daneben auch .php oder .css oder ...</li>
 </ul>

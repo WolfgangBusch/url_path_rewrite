@@ -3,7 +3,7 @@
  * URL-Rewrite AddOn
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version April 2020
+ * @version Januar 2021
  */
 #
 $attr='Metadaten';
@@ -11,7 +11,7 @@ $vname='&quot;Verzeichnisname&quot;';
 $dname='&quot;Dateiname&quot;';
 $urlbez='Custom URL';
 $stx='style="padding-left:20px;"';
-$sty='style="margin-bottom:0px;"';
+$sty='style="margin-top:0px; margin-bottom:0px;"';
 #
 $string='
 <div><b>Elemente der URL-Darstellung:</b></div>
@@ -32,7 +32,8 @@ entfernt.
         generierter Artikel-URL ('.$urlbez.', ohne führenden &quot;/&quot;),
         ablesbar (<tt>readonly</tt>) in den Metadaten des Artikels,
         den Wert (mit führendem &quot;/&quot;) liefert die Standardfunktion
-        <code>rex_getUrl(article_id)</code>, er ist sprach-unabhängig</li>
+        <code>rex_getUrl(article_id)</code>, er ist für alle Sprachversionen
+        gleich</li>
 </ul>
 Erlaubte Zeichen für die Meta Infos sind: '.url_path_config::allowed_chars().'.
 Startartikelname und Namenserweiterung können auch anders konfiguriert
@@ -43,13 +44,13 @@ werden.
 <div '.$stx.'>Die Kennzeichnung der Sprache erfolgt mittels der definierten
 Sprachcodes, wahlweise durch
 <ul '.$sty.'>
-    <li>eine Erweiterung des Custom URL um den Sprachcode in der Form
-        <code>en/'.REWRITER_DIR.'1/...</code> oder</li>
-    <li>eine Erweiterung des Custom URL um einen Parameter in der Form
-        <code>.../'.REWRITER_BASE.'?language=en</code> oder</li>
+    <li>eine Erweiterung des angezeigten URLs um den voran gestellten Sprachcode
+        (<code>/en/'.REWRITER_DIR.'1/...</code>) oder</li>
+    <li>eine Erweiterung des angezeigten URLs um einen language-Parameter
+        (<code>.../'.REWRITER_BASE.'?language=en</code>) oder</li>
     <li>eine Session-Variable <code>$_SESSION[\'language\']=\'en\'</code>,
-        ein Sprachwechsel erfolgt hier mittels URL-Parameter im
-        entsprechenden Link (vergl. vorige Zeile).</li>
+        ein Sprachwechsel erfolgt hier mittels language-Parameter im
+        Link (vergl. vorige Zeile).</li>
 </ul>
 Die Art der Kennzeichnung ist konfigurierbar. Bei der Standardsprache
 und damit auch bei einsprachigen Installationen entfällt

@@ -3,7 +3,7 @@
  * URL-Rewrite Addon
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version April 2020
+ * @version Januar 2021
  */
 #
 $stx='style="padding-left:20px;"';
@@ -18,7 +18,7 @@ gibt auf Artikelinhalt, Themenkategorie, Site-Struktur o. Ä.
 Zur Realisierung wird eine Funktion definiert, die den gewünschten
 URL am <code>Extension Point URL_REWRITE</code> zurück gibt. Im
 Backend wird diese Funktion nur im Content-Kontext eines Artikels
-(edit, metainfo, functions) aufgerufen, im Frontend nur innerhalb
+(edit, functions) aufgerufen, im Frontend nur innerhalb
 der Funktion <code>rex_getUrl($article_id,$clang_id)</code>.
 Letztere liefert dem Redakteur (z. B. in Templates oder Modulen)
 den URL eines Artikels und die Anzeige im Browser-Adressfeld.</div>

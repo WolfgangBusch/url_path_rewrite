@@ -3,7 +3,7 @@
  * URL-Rewrite AddOn
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version April 2020
+ * @version Januar 2021
  */
 #
 $attr='Metadaten';
@@ -11,16 +11,17 @@ $dname='&quot;Dateiname&quot;';
 $vname='&quot;Verzeichnisname&quot;';
 $urlbez='Custom URL';
 $stg='style="color:green;"';
+$sth='style="color:green; border:solid 1px green;"';
 #
 $string='
 <div><b>Eingabe/Aktualisierung der zusätzlichen Meta Infos:</b></div>
 <ul>
     <li>'.$vname.' einer Kategorie [<code>'.REWRITER_DIR.'</code>]:
-        Eingabe im Menü <code '.$stg.'>ändern</code>
+        Eingabe im Menü <code '.$stg.'><big>
+        <i class="rex-icon fa-pencil-square-o"> ändern</i></big></code>
         der Kategorie.</li>
     <li>'.$dname.' eines Artikels [<code>'.REWRITER_BASE.'</code>]:
-        Eingabe im Menü <code '.$stg.'>'.$attr.'</code>
-        des Artikels.</li>
+        Eingabe in den '.$attr.' des Artikels.</li>
     <li>'.$urlbez.' eines Artikels [<code>'.REWRITER_URL.'</code>]:
         Wird in jedem Kontextmenüs des Artikels automatsch neu erzeugt,
         ist also auch vor der Eingabe von Artikelinhalten schon
@@ -28,36 +29,38 @@ $string='
 </ul>
 <div><b>Anlegen einer neuen Kategorie:</b></div>
 <ul>
-    <li>Das Menü <code '.$stg.'>
-        <i class="rex-icon rex-icon-add"></i></code> öffnen (ist nur
-        vorhanden, wenn Meta Infos der Kategorie definiert sind).</li>
-    <li>In das Eingabefeld eingeben: '.$vname.' der Kategorie
-        [<code>'.REWRITER_DIR.'</code>].<br/>
+    <li>Im Eingabemenü der Kategorie den Button <code '.$sth.'>
+        <i class="rex-icon rex-icon-add"></i></code> klicken
+        (ist nur vorhanden, weil mindestens eine Meta Info
+        definiert ist).</li>
+    <li>In das zusätzliche Eingabefeld eingeben: '.$vname.' der
+        Kategorie [<code>'.REWRITER_DIR.'</code>].<br/>
         Default-Wert: der darüber eingetragene Kategoriename
         [<code>catname</code>]
-        (falls leer: Kategorie-Id [<code>id</code>]).</li>
+        (falls leer: Kategorie-Id [<code>id</code>]).<br/>
+        Der '.$vname.' wird automatisch für alle Sprachversionen
+        übernommen.</li>
     <li>Mit dem Eintritt in das Kontextmenü eines Artikels dieser
         Kategorie wird der '.$vname.' überprüft (erlaubte Zeichen,
-        Eindeutigkeit) und ggf. korrigiert, bevor er als Pfadanteil
-        in den URL aufgenommen wird. Dabei wird der '.$vname.' der
-        Sprache des gerade bearbeiteten Artikels auch für alle anderen
-        Sprachversionen übernommen.</li>
+        Eindeutigkeit) und ggf. korrigiert (automatisch für
+        alle Sprachversionen), bevor er als Pfadanteil
+        in den Custom URL aufgenommen wird.</li>
 </ul>
 <div><b>Anlegen eines neuen Artikels:</b></div>
 <ul>
-    <li>In das Eingabefeld eintragen: '.$dname.' des Artikels
-        [<code>'.REWRITER_BASE.'</code>].<br/>
+    <li>In den '.$attr.' in das Eingabefeld eingeben: '.$dname.'
+        des Artikels [<code>'.REWRITER_BASE.'</code>].<br/>
         Default-Wert: <code>name.html</code> (normaler Artikel,
         falls leer: <code>id.html</code>) bzw. <code>index.html</code>
         (Startartikel).<br/>
         Namenserweiterung bzw. Startartikelname können auch anders
         konfiguriert werden.</li>
-    <li>Der eingegebene Wert wird überprüft (erlaubte Zeichen,
-        Eindeutigkeit), ggf. korrigiert und parallel für alle
-        Sprachversionen gespeichert.</li>
-    <li>Der zugehörige '.$urlbez.' [<code>'.REWRITER_URL.'</code>] wird
-        durch den Wechsel in ein anderes Kontextmenü des Artikels
-        automatisch erzeugt, z. B. durch Rückkehr in den Editiermodus.</li>
+    <li>Mit der Aktualisierung der '.$attr.' wird der eingegebene
+        Wert überprüft (erlaubte Zeichen, Eindeutigkeit), ggf.
+        korrigiert und parallel für alle Sprachversionen gespeichert.</li>
+    <li>Der zugehörige '.$urlbez.' [<code>'.REWRITER_URL.'</code>]
+        wird zu Anfang automatisch erzeugt und angepasst, sobald
+        der '.$dname.' geändert wird.</li>
 </ul>
 <div><b>Kopieren eines Artikels:</b></div>
 <ul>
@@ -84,15 +87,6 @@ $string='
         jeweils automatisch ein '.$dname.' [<code>'.REWRITER_BASE.'</code>]
         und der zugehörige '.$urlbez.' [<code>'.REWRITER_URL.'</code>]
         angelegt.</li>
-</ul>
-<div><b>Utility-Funktionen für den Frontend:</b></div>
-<ul>
-    <li><code>echo select_lang();</code> &nbsp; liefert im aktuellen
-        Artikel ein select-Menü zur Sprachauswahl.</li>
-    <li><code>echo select_url();</code> &nbsp; liefert im aktuellen
-        Artikel ein select-Menü zum Wechsel zwischen konfigurierter
-        URL-Form und Redaxo-Standard-URL, wobei die gewählte Sprache
-        beibehalten wird.</li>
 </ul>
 ';
 echo $string;

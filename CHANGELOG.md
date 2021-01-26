@@ -1,4 +1,10 @@
 # url_path_rewrite
+<h4>Version 2.2</h4>
+<ul>
+    <li>Im Quellcode sind jetzt einige überflüssige Teile entfernt.
+        U.a. ist der Ordner functions entfallen. Die dort enthaltenen
+        Funktionen sind für das AddOn nicht notwendig.</li>
+</ul>
 <h4>Version 2.1</h4>
 <ul>
     <li>Aus systematischen Gründen wurde wieder eine Datei 'help.php' eingefügt.</li>

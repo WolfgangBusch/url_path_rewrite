@@ -3,7 +3,7 @@
  * URL-Rewrite AddOn
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version April 2020
+ * @version Januar 2021
  */
 #
 define('REWRITER',         $this->getPackageId()); // Package-Id
@@ -20,7 +20,9 @@ class url_path_config {
 #
 # --- hierarchische Liste der functions
 #     install_metainfos()
-#        sql_action($sql,$query)
+#        define_metainfos()
+#     first_config()
+#        default_config()
 #     configuration()
 #        default_config()
 #        allowed_name()
@@ -28,17 +30,45 @@ class url_path_config {
 #
 public static function install_metainfos() {
    #   Einfuegen der MetaInfos in die Redaxo-Tabellen
-   #        rex_metainfo_field und rex_article
-   #   bei der Installation des Rewriters
+   #   rex_metainfo_field und rex_article
    #   benutzte functions:
-   #      self::sql_action($sql,$query)
+   #      self::define_metainfos()
+   #      self::insert_metainfos($metainfos)
+   #
+   # --- MetaInfos definieren
+   $metainfos=self::define_metainfos();
+   #
+   # --- MetaInfos einfuegen, falls nicht schon vorhanden
+   $query=self::insert_metainfos($metainfos);
+   $sql=rex_sql::factory();
+   for($i=0;$i<count($query);$i=$i+1)
+      if(!$query[$i]['exist']) $sql->setQuery($query[$i]['query']);
+   #
+   # --- welche MetaInfos sind als Spalten in rex_article definiert?
+   $cols=$sql->getArray('SHOW COLUMNS FROM rex_article');
+   $col=array('','','');
+   for($i=0;$i<count($cols);$i=$i+1):
+      if($cols[$i]['Field']==REWRITER_DIR)  $col[0]=$cols[$i]['Field'];
+      if($cols[$i]['Field']==REWRITER_BASE) $col[1]=$cols[$i]['Field'];
+      if($cols[$i]['Field']==REWRITER_URL)  $col[2]=$cols[$i]['Field'];
+      endfor;
+   #
+   # --- nicht vorhandene MetaInfos als Spalten von rex_article ergaenzen
+   for($i=0;$i<count($metainfos);$i=$i+1):
+      $name=$metainfos[$i]['name'];
+      if($name!=$col[$i]):
+        $query='ALTER TABLE rex_article ADD '.$name.' VARCHAR(255)';
+        $sql->setQuery($query);
+        endif;
+      endfor;
+   }
+public static function define_metainfos() {
+   #   Definition der MetaInfos fuer die Redaxo-Tabellen
+   #   rex_metainfo_field und rex_article
    #
    $user='';
    if(rex_backend_login::createUser()) $user=rex::getUser()->getValue('login');
-   $table1='rex_metainfo_field';
-   $idkey='id';
    $priokey='priority';
-   $table2='rex_article';
    #
    # --- Definition der MetaInfos
    $heute=date('Y-m-d H:i:s');
@@ -55,22 +85,33 @@ public static function install_metainfos() {
             'type_id'   =>1),
       array('title'     =>'Custom URL (readonly)',
             'name'      =>REWRITER_URL,
-            'attributes'=>'readonly=readonly style=background-color:#dddddd',
+            'attributes'=>'readonly=readonly style=background-color:rgb(220,220,220)',
             'type_id'   =>1));
    for($i=0;$i<count($metainfos);$i=$i+1):
-      $metainfos[$i]['params']    ='';
-      $metainfos[$i]['validate']  ='';
       $metainfos[$i]['createuser']=$user;
       $metainfos[$i]['createdate']=$heute;
       $metainfos[$i]['updateuser']=$user;
       $metainfos[$i]['updatedate']=$heute;
       endfor;
+   return $metainfos;
+   }
+public static function insert_metainfos($metainfos) {
+   #   Rueckgabe der in die Redaxo-Tabelle rex_metainfo_field einzutragenden
+   #   3 MetaInfos in Form eines nummerierten Arrays (Nummerierung ab 0),
+   #   wobei jedes Array-Element ein assoziatives Array der folgenden
+   #   Form ist:
+   #      $arr['query']   SQL-Kommando zum Eintragen der MetaInfo
+   #      $arr['exist']   =FALSE: Die MetaInfo ist noch nicht vorhanden
+   #                              und muss eingetragen werden
+   #                      =TRUE:  Die MetaInfo ist schon vorhanden
+   #                              und wird nicht mehr eingetragen
+   #   $metainfos         Array der 3 MetaInfos mit allen Parametern
    #
+   $table='rex_metainfo_field';
+   $priokey='priority';
    $sql=rex_sql::factory();
-   #
-   # --- vorhandene MetaInfos abfragen
    for($i=0;$i<count($metainfos);$i=$i+1) $meta_exist[$i]=FALSE;
-   $rows=$sql->getArray('SELECT * FROM '.$table1);
+   $rows=$sql->getArray('SELECT * FROM '.$table);
    $anzmeta=count($rows);
    $prio=0;
    for($k=0;$k<$anzmeta;$k=$k+1):
@@ -80,83 +121,49 @@ public static function install_metainfos() {
       if($meta_typ=='art' and $priority>$prio) $prio=$priority;
        for($i=0;$i<count($metainfos);$i=$i+1):
          if($metainfos[$i]['name']==$key):
-           $meta_exist[$i]=TRUE;
+           $meta_exist[$i]=TRUE;   // MetaInfo vorhanden
            endif;
          endfor;
       endfor;
    #
-   # --- neue MetaInfos einfuegen, falls nicht schon vorhanden
-   $err_meta='';
+   # --- MetaInfos einfuegen, falls nicht schon vorhanden
    $id=$anzmeta;
+   $query=array();
    for($i=0;$i<count($metainfos);$i=$i+1):
       $metainfo=$metainfos[$i];
       $name=$metainfo['name'];
       $set='';
       foreach($metainfo as $key => $value)
-             if(!empty($value) and $key!='name') $set=$set.', '.$key.'=\''.$value.'\'';
-      $where='name=\''.$name.'\'';
+             if(!empty($value) and $key!='name'):
+               if($key=='type_id'):
+                 $set=$set.', '.$key.'='.$value;
+                 else:
+                 $set=$set.', '.$key.'=\''.$value.'\'';
+                 endif;
+               endif;
       $prio=$prio+1;
       $set=substr($set,2).', '.$priokey.'='.$prio;
-      if($meta_exist[$i]):
-        $err_meta=$err_meta.', '.$name;
-        else:
-        $id=$id+1;
-        $set=$idkey.'='.$id.', name=\''.$name.'\', '.$set;
-        $query='INSERT '.$table1.' SET '.$set;
-        self::sql_action($sql,$query);
-        endif;
+      $id=$id+1;
+      $set='id='.$id.', name=\''.$name.'\', '.$set;
+      $query[$i]['query']='INSERT '.$table.' SET '.$set;
+      $query[$i]['exist']=$meta_exist[$i];
       endfor;
-   #
-   # --- Meldung ueber schon vorhandene MetaInfos
-   $stx='style="padding-right:10px;"';
-   if(!empty($err_meta))
-      $err_meta='<tr><td '.$stx.'>Schon vorhandene <b>MetaInfos</b> ( nicht '.
-         'aktualisiert (!) ):</td><td '.$stx.'>'.substr($err_meta,2).'</td></tr>';
-   #
-   # --- rex_article-Spalten einfuegen, falls nicht schon vorhanden
-   $cols=$sql->getArray('SHOW COLUMNS FROM '.$table2);
-   $col[0]='';
-   $col[1]='';
-   $col[2]='';
-   for($i=0;$i<count($cols);$i=$i+1):
-      if($cols[$i]['Field']==REWRITER_DIR)  $col[0]=$cols[$i]['Field'];
-      if($cols[$i]['Field']==REWRITER_BASE) $col[1]=$cols[$i]['Field'];
-      if($cols[$i]['Field']==REWRITER_URL)  $col[2]=$cols[$i]['Field'];
-      endfor;
-   $err_column='';
-   for($i=0;$i<count($metainfos);$i=$i+1):
-      $name=$metainfos[$i]['name'];
-      if($name!=$col[$i]):
-        $query='ALTER TABLE '.$table2.' ADD '.$name.' VARCHAR(255)';
-        self::sql_action($sql,$query);
-        else:
-        $err_column=$err_column.', '.$col[$i];
-        endif;
-      endfor;
-   #
-   # --- Meldung ueber schon vorhandene rex_article-Spalten
-   if(!empty($err_column))
-     $err_column='<tr><td '.$stx.'>Schon vorhandene <b>rex_article-Parameter</b> '.
-        '( nicht aktualisiert (!) ):</td><td '.$stx.'>'.substr($err_column,2).'</td></tr>';
-   #
-   # --- Ausgabe der ggf. schon vorhandenen MetaInfos/rex_article-Spalten
-   if(!rex::isBackend() and (!empty($err_meta) or !empty($err_column)))
-     echo rex_view::warning('<table cellpadding="0" cellspacing="0">'.
-        $err_meta.$err_column.'</table>');
+   return $query;
    }
-public static function sql_action($sql,$query) {
-   #   Ausfuehrung einer SQL-Aktion mittels setQuery()
-   #   ggf. Ausgabe einer Fehlermeldung
-   #   $sql               SQL-Handle
-   #   $query             SQL-Aktion
+public static function first_config() {
+   #   Setzen der Default-Konfiguration bei der Erstinstallation,
+   #   d.h. falls noch keine Konfigurationsparameter gesetzt sind.
+   #   benutzte functions:
+   #      self::default_config()
    #
-   try {
-        $sql->setQuery($query);
-        $error='';
-         } catch(rex_sql_exception $e) {
-        $error=$e->getMessage();
-        }
-   if(!empty($error)) echo rex_view::error($error);
+   $defconf=self::default_config();
+   $key=array_keys($defconf);
+   $first=TRUE;
+   for($i=0;$i<count($key);$i=$i+1)
+      if(!empty(rex_config::get(REWRITER,$key[$i]))) $first=FALSE;
+   if($first)
+     for($i=0;$i<count($key);$i=$i+1)
+        rex_config::set(REWRITER,$key[$i],$defconf[$key[$i]]);
    }
 public static function default_config() {
    #   Rueckgabe der Default-Konfigurations-Parameter
@@ -173,11 +180,11 @@ public static function default_config() {
    #                         (kein Sprachhinweis im URL, keine Session-Variable)
    #      Sonstige Sprachen: der URL-String enthaelt den Sprach-Code oder
    #                         eine Session-Variable enthaelt den Sprachcode:
-   #         CLANG_MODE=1:  URL=/code/Stamm-URL
-   #                   =2:  URL=Stamm-URL?CLANG_VALUE=code
-   #                   =3:  URL=Stamm-URL, Session-Variable: CLANG_VALUE=code
-   #                        Aenderung der Session-Variable durch URL-Parameter
-   #                        ...?CLANG_VALUE=code
+   #          CLANG_MODE=1:  URL=/code/Stamm-URL
+   #                    =2:  URL=Stamm-URL?CLANG_VALUE=code
+   #                    =3:  URL=Stamm-URL, Session-Variable: CLANG_VALUE=code
+   #                         Aenderung der Session-Variable durch URL-Parameter
+   #                         ...?CLANG_VALUE=code
    return $defconf;
    }
 public static function configuration() {
@@ -418,7 +425,7 @@ public static function allowed_chars() {
    #   - Punkt (.), Minuszeichen (-), Unterstrich (_)
    #
    return 'Buchstaben, Ziffern, Punkt(.), Minuszeichen(-), '.
-      'Unterstrich(_), <u>nicht erlaubt sind Umlaute oder Leerzeichen</u>';
+      'Unterstrich(_), <u>nicht erlaubt sind u.a. Umlaute oder Leerzeichen</u>';
    }
 }
 ?>

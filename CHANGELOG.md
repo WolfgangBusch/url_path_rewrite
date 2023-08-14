@@ -1,4 +1,12 @@
 # url_path_rewrite
+<h4>Version 2.3</h4>
+<ul>
+    <li>Die Dateien im Ordner lib und die Klassennamen darin sind umbenannt.</li>
+    <li>Konstanten werden nicht mehr per 'define(...)' vereinbart, sondern
+        als Klassen-Konstanten definiert.</li>
+    <li>Unter bestimmten Bedingungen scheiterte die Installationsprozedur.
+        Der Fehler ist behoben.</li>
+</ul>
 <h4>Version 2.2</h4>
 <ul>
     <li>Im Quellcode sind jetzt einige überflüssige Teile entfernt.

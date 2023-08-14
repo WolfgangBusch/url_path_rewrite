@@ -3,10 +3,11 @@
  * URL-Rewrite AddOn
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version Januar 2021
+ * @version August 2023
  */
-require_once __DIR__.'/lib/class.path_config.php';
-require_once __DIR__.'/lib/class.path_url_rewrite.php';
-rex_extension::register('URL_REWRITE',array('url_rewrite','rewrite'));
-if(!rex::isBackend()) url_rewrite::set_current();
+require_once __DIR__.'/lib/class.url_path_config.php';
+require_once __DIR__.'/lib/class.url_path_rewrite.php';
+$my_package=$this->getPackageId();
+rex_extension::register('URL_REWRITE',array($my_package,'rewrite'));
+if(!rex::isBackend()) $my_package::set_current();
 ?>

@@ -3,24 +3,9 @@
  * URL-Rewrite Addon
  * @author wolfgang[at]busch-dettum[dot]de Wolfgang Busch
  * @package redaxo5
- * @version Januar 2021
+ * @version August 2023
  */
 #
-echo '
-<ul>
-    <li>Dieses AddOn ist eine Erweiterung des Standard-Rewriters und
-        nutzt den <code>Extension Point URL_REWRITE</code>.</li>
-    <li>Der Artikel-URL wird automatisch in der Form
-        <code>category1/category2/.../categoryN/article</code>
-        generiert und bildet so den Kategorien-Pfad eines Artikels ab.
-        Für die zugehörigen Kategorie- und Artikelbezeichnungen werden
-        Meta Infos eingerichtet und als zusätzliche Artikelparameter
-        genutzt.</li>
-    <li>Die Sprache einer Seite kann wahlweise im URL oder durch eine
-        Session-Variable gekennzeichnet werden.</li>
-    <li>Artikel können auch über den Redaxo-Standard-URL
-        <code>index.php?article_id=ID&clang=CID</code> aufgerufen
-        werden.</li>
-    <li>Es sind keine besonderen RewriteRules erforderlich.</li>
-</ul>';
+$intro=file_get_contents(__DIR__.'/README.md');
+echo substr($intro,strpos($intro,'<div>'));
 ?>

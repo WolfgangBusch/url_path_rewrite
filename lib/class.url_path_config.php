@@ -240,8 +240,15 @@ public static function configuration() {
    $key=array_keys($defconf);
    for($i=0;$i<count($key);$i=$i+1) $defval[$i]=$defconf[$key[$i]];
    #
-   # --- Auslesen der gesetzen Konfiguration
-   for($i=0;$i<count($key);$i=$i+1) $confval[$i]=rex_config::get($addon::REWRITER,$key[$i]);
+   # --- Auslesen der gesetzen Konfiguration (falls alles leer: Default-Werte)
+   $confval=array();
+   $leer=TRUE;
+   for($i=0;$i<count($key);$i=$i+1):
+      $confval[$i]=rex_config::get($addon::REWRITER,$key[$i]);
+      if(!empty($confval[$i])) $leer=FALSE;
+      endfor;
+   if($leer)
+     for($i=0;$i<count($key);$i=$i+1) $confval[$i]=$defval[$i];
    #
    # --- Einlesen der gesetzten Formularwerte
    $save='';

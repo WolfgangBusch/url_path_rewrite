@@ -6,7 +6,7 @@
  * @version August 2023
  */
 #
-$addon=$this->getPackageId();
+$addon='url_path_rewrite';
 echo '
 <div><b>Setzen eines Wunsch-URLs</b></div>
 <div '.$addon::INDENT.'>Ein URL hat in Redaxo die Standardform

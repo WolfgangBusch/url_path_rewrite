@@ -6,7 +6,7 @@
  * @version August 2023
  */
 #
-$addon=$this->getPackageId();
+$addon='url_path_rewrite';
 $allow=$addon::allowed_chars();
 $pos=strpos($allow,'Buchstaben')-1;
 $allow=substr($allow,$pos);
